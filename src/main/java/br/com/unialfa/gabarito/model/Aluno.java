@@ -1,12 +1,14 @@
 package br.com.unialfa.gabarito.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.util.List;
 
 @Data
 @Entity
-@EqualsAndHashCode(callSuper = true)
 public class Aluno extends Usuario {
     private String matricula;
+
+    @ManyToMany(mappedBy = "alunos")
+    private List<Turma> turmas;
 }

@@ -1,12 +1,10 @@
 package br.com.unialfa.gabarito.repository;
 
-import br.com.unialfa.gabarito.model.Turma;
 import br.com.unialfa.gabarito.model.Aluno;
+import br.com.unialfa.gabarito.model.Turma;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,9 +16,4 @@ public interface TurmaAlunoRepository extends JpaRepository<Turma, Long> {
 
     @Query("SELECT a FROM Aluno a JOIN a.turmas t WHERE t.id = :turmaId")
     List<Aluno> findAlunosByTurmaId(Long turmaId);
-
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM Turma t WHERE t.id = :turmaId AND :alunoId IN (SELECT a.id FROM t.alunos a)")
-    void removeAlunoFromTurma(Long turmaId, Long alunoId);
 }
