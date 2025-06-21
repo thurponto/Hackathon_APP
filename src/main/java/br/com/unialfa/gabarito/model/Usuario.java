@@ -12,6 +12,9 @@ public class Usuario {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    private String matricula;
+
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -21,7 +24,7 @@ public class Usuario {
     private String nome;
 
     @Column(nullable = false)
-    private String tipo; // ADMIN, PROFESSOR, ALUNO
+    private String cargo; // ADMIN, PROFESSOR, ALUNO
 
     public String getSenha() {
         return senha;
