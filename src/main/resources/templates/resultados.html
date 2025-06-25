@@ -1,24 +1,63 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultados da Prova</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa; /* Cor de fundo suave */
+        }
+
+        .container {
+            max-width: 800px; /* Largura máxima da tabela */
+            margin-top: 50px; /* Espaçamento superior */
+            padding: 2rem;
+            background: white; /* Fundo branco para a tabela */
+            border-radius: 10px; /* Bordas arredondadas */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        }
+
+        h2 {
+            color: #4361ee; /* Cor do título */
+            margin-bottom: 20px; /* Espaçamento inferior */
+        }
+
+        .table {
+            margin-bottom: 0; /* Remove o espaçamento inferior da tabela */
+        }
+
+        th {
+            background-color: #4361ee; /* Cor de fundo do cabeçalho */
+            color: white; /* Cor do texto do cabeçalho */
+        }
+
+        td {
+            vertical-align: middle; /* Alinhamento vertical das células */
+        }
+    </style>
 </head>
-<body class="container mt-5">
-<h2>Resultados</h2>
-<table class="table table-bordered">
-    <thead>
-    <tr>
-        <th>Aluno</th>
-        <th>Nota</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="resposta : ${respostas}">
-        <td th:text="${resposta.aluno.nome}"></td>
-        <td th:text="${resposta.nota}"></td>
-    </tr>
-    </tbody>
-</table>
+<body>
+<div class="container">
+    <h2>Resultados</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Aluno</th>
+            <th>Nota</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="resposta : ${respostas}">
+            <td th:text="${resposta.aluno.nome}"></td>
+            <td th:text="${resposta.nota}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/dashboard-professor}" class="btn btn-outline-primary mt-3">Voltar</a>
+</div>
 </body>
 </html>

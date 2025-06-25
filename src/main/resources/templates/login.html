@@ -1,28 +1,284 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Sistema de Gabarito</title>
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap e Ícones -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- CSS Customizado -->
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4cc9f0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark-color);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 480px;
+            padding: 2.5rem;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h2 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: #6c757d;
+        }
+
+        .form-control {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2);
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            z-index: 4;
+        }
+
+        .form-control.with-icon {
+            padding-left: 45px;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border: none;
+            padding: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .login-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .alert-danger {
+            background-color: rgba(220, 53, 69, 0.1);
+            border-color: rgba(220, 53, 69, 0.3);
+            color: #dc3545;
+            border-radius: 8px;
+            padding: 12px 15px;
+        }
+
+        /* Efeito de animação */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animated {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        /* Dark mode toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+    </style>
 </head>
-<body class="container mt-5">
+<body>
+<!-- Botão para alternar tema (opcional) -->
+<button class="theme-toggle" id="themeToggle">
+    <i class="bi bi-moon"></i>
+</button>
 
-<h2 class="mb-4">Login</h2>
-
-<!-- Mensagem de erro -->
-<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-
-<form method="post" th:action="@{/login}">
-    <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" id="email" name="email" class="form-control" required>
+<div class="login-card animated">
+    <div class="login-header">
+        <i class="bi bi-person-lock" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+        <h2>Bem-vindo de volta</h2>
+        <p>Entre com suas credenciais para acessar o sistema</p>
     </div>
-    <div class="mb-3">
-        <label for="senha" class="form-label">Senha</label>
-        <input type="password" id="senha" name="senha" class="form-control" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Entrar</button>
-</form>
 
+    <!-- Mensagem de erro -->
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <form th:action="@{/login}" method="post">
+        <div class="input-group">
+            <i class="bi bi-envelope input-icon"></i>
+            <input type="email" id="email" name="email" class="form-control with-icon" placeholder="Endereço de email" required>
+        </div>
+
+        <div class="input-group">
+            <i class="bi bi-lock input-icon"></i>
+            <input type="password" id="senha" name="senha" class="form-control with-icon" placeholder="Sua senha" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-login" id="submitBtn">
+            <span id="btnText">Entrar</span>
+            <span id="btnLoading" style="display: none;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Entrando...
+                </span>
+        </button>
+    </form>
+
+
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Animação de loading ao enviar formulário
+    document.getElementById('loginForm').addEventListener('submit', function() {
+        document.getElementById('btnText').style.display = 'none';
+        document.getElementById('btnLoading').style.display = 'block';
+        document.getElementById('submitBtn').disabled = true;
+    });
+
+    // Alternar entre temas claro e escuro (opcional)
+    document.getElementById('themeToggle').addEventListener('click', function() {
+        if (document.body.classList.contains('dark-mode')) {
+            document.body.classList.remove('dark-mode');
+            this.innerHTML = '<i class="bi bi-moon"></i>';
+        } else {
+            document.body.classList.add('dark-mode');
+            this.innerHTML = '<i class="bi bi-sun"></i>';
+        }
+    });
+
+    // Exemplo de animação interativa para o campo de senha
+    document.getElementById('senha').addEventListener('focus', function() {
+        this.parentNode.querySelector('.input-icon').style.color = 'var(--accent-color)';
+    });
+
+    document.getElementById('senha').addEventListener('blur', function() {
+        this.parentNode.querySelector('.input-icon').style.color = '#6c757d';
+    });
+</script>
+
+<!-- Estilo para dark mode -->
+<style>
+    .dark-mode body {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: #f8f9fa;
+    }
+
+    .dark-mode .login-card {
+        background-color: #212529;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    .dark-mode .login-header h2,
+    .dark-mode .login-header p,
+    .dark-mode .login-footer a,
+    .dark-mode .form-label {
+        color: white;
+    }
+
+    .dark-mode .form-control {
+        background-color: #343a40;
+        border-color: #495057;
+        color: white;
+    }
+
+    .dark-mode .form-control:focus {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .dark-mode .theme-toggle {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+</style>
 </body>
 </html>
