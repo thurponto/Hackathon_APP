@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/professores")
-public class ProfessorController {
+public class    ProfessorController {
     @Autowired
     private ProfessorRepository professorRepository;
 

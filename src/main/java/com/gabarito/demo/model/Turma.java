@@ -1,5 +1,6 @@
 package com.gabarito.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +17,7 @@ public class Turma {
     private String nome;
 
     @OneToMany(mappedBy = "turma")
+    @JsonIgnore
     private List<Aluno> alunos;
 
     public Turma(String nome, Long id, List<Aluno> alunos) {

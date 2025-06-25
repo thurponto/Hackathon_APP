@@ -29,6 +29,7 @@
     <tr>
         <th>Nome</th>
         <th>Email</th>
+        <th>RA</th>
         <th>Turma</th>
         <th>Ações</th>
     </tr>
@@ -37,6 +38,7 @@
     <tr th:each="aluno : ${alunos}">
         <td th:text="${aluno.nome}">Nome</td>
         <td th:text="${aluno.email}">Email</td>
+        <td th:text="${aluno.ra}">RA</td>
         <td th:text="${aluno.turma.nome}">Turma</td>
         <td>
             <a class="btn btn-sm btn-warning" th:href="@{/alunos/editar/{id}(id=${aluno.id})}">Editar</a>

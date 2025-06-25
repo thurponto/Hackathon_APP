@@ -1,5 +1,6 @@
 package com.gabarito.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,6 +18,7 @@ public class Prova {
     private Turma turma;
 
     @ManyToOne
+    @JsonIgnore
     private Disciplina disciplina;
 
     @Column(columnDefinition = "TEXT")
